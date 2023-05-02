@@ -2,19 +2,22 @@ import {
   Injectable,
   ConflictException,
   NotFoundException,
-  InternalServerErrorException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { UserCredentialsDto } from './DTO/userCredentials.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './Schemas/User.schema';
 import * as mongoose from 'mongoose'
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
+import { JwtPayload } from './jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(User.name)
-    private userModel: mongoose.Model<User>
+    private userModel: mongoose.Model<User>,
+    private jwtService: JwtService,
   ) { }
 
   async signUp(
@@ -41,7 +44,7 @@ export class AuthService {
 
   async signIn(
     { userName, password }: UserCredentialsDto,
-  ) {
+  ): Promise<{ accessToken: string }> {
     const user = await this.userModel.findOne({ userName });
 
     if (!user) {
@@ -52,9 +55,12 @@ export class AuthService {
     const isThePasswordRight = await bcrypt.compare(password, hashedPassword);
 
     if (!isThePasswordRight) {
-      throw new ConflictException('password is uncorrect')
+      throw new UnauthorizedException('please check your login credentials')
     }
 
-    return user;
+    const payload: JwtPayload = { userName };
+    const accessToken = this.jwtService.sign(payload);
+
+    return { accessToken };
   }
 }
