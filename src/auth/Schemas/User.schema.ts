@@ -1,12 +1,12 @@
-import { Schema, Prop, SchemaFactory,  } from '@nestjs/mongoose';
+import { Schema, Prop, SchemaFactory, } from '@nestjs/mongoose';
 
 @Schema()
 export class User {
-  @Prop()
+  @Prop({ unique: true })
   userName: string;
 
   @Prop()
-  password: string
+  password: string;
 }
 
 
