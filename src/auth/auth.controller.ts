@@ -2,7 +2,7 @@ import {
   Controller,
   Post,
   Body,
-  Get
+  Get,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserCredentialsDto } from './DTO/userCredentials.dto';
