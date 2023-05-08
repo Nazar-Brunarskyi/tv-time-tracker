@@ -4,7 +4,7 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { UserCredentialsDto } from './DTO/userCredentials.dto';
+import { UserCredentialsDto } from './DTOs/userCredentials.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './Schemas/User.schema';
 import * as mongoose from 'mongoose'

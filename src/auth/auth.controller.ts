@@ -5,7 +5,7 @@ import {
   Get,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { UserCredentialsDto } from './DTO/userCredentials.dto';
+import { UserCredentialsDto } from './DTOs/userCredentials.dto';
 import { User } from './Schemas/User.schema';
 
 @Controller('auth')
