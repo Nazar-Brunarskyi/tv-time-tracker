@@ -11,7 +11,7 @@ import { User } from './Schemas/User.schema';
 @Controller('auth')
 export class AuthController {
   constructor(
-    private authServise: AuthService 
+    private authServise: AuthService
   ) { }
 
   @Post('/signup')
