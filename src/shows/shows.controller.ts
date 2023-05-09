@@ -9,6 +9,7 @@ import {
 import { ShowsService } from './shows.service';
 import { ShowDto } from './DTOs/show.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from 'src/Decorators/getUser.decorator';
 
 @Controller('shows')
 export class ShowsController {
@@ -22,13 +23,11 @@ export class ShowsController {
   }
 
   @Post()
-  // @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard())
   createShow(
     @Body() showDto: ShowDto,
-    @Request() req
+    @GetUser() user
   ) {
-    console.log(req.user);
-    
-    return this.showsService.createShow(showDto)
+    return this.showsService.createShow(showDto, user)
   }
 }

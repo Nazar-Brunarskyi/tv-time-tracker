@@ -26,7 +26,6 @@ export class AuthService {
     try {
       const salt = await bcrypt.genSalt();
       const hashedPassword = await bcrypt.hash(password, salt);
-
       const newUser = new this.userModel({
         userName,
         password: hashedPassword,
@@ -36,6 +35,8 @@ export class AuthService {
 
       return newUser
     } catch (error) {
+      console.log(error);
+
       if (error.code === 11000) {
         throw new ConflictException('user with such name already exist');
       }

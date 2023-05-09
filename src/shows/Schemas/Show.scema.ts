@@ -1,11 +1,11 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { User } from 'src/auth/Schemas/User.schema';
-import { Season } from '../Interfaces/Season.interface';
+import { Season } from './Season.scema';
 
 @Schema()
 export class Show {
-  @Prop({ required: true })
+  @Prop({ unique: true })
   name: string;
 
   @Prop({ required: true })
@@ -14,12 +14,18 @@ export class Show {
   @Prop({ required: true })
   image: string;
 
-  @Prop({ required: true, default: [] })
-  seasons: Season[]
+  @Prop({
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Season' }],
+    default: []
+  })
+  seasons?: Season[]
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Owner' })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  })
   createdBy: User
 }
 
 export const ShowSchema = SchemaFactory.createForClass(Show)
-
