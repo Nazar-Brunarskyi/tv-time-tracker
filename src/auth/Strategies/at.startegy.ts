@@ -7,13 +7,13 @@ import { JwtPayload } from "../Interfaces/jwt-payload.interface";
 import mongoose from "mongoose";
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(
     @InjectModel(User.name)
     private userModel: mongoose.Model<User>,
   ) {
     super({
-      secretOrKey: process.env.SECRET,
+      secretOrKey: process.env.AT_SECRET,
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     });
   }

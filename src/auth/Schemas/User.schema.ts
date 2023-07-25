@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 
 @Schema()
 export class User {
-  @Prop({ type: mongoose.Schema.Types.ObjectId, default: new mongoose.Types.ObjectId })
+  @Prop({ type: mongoose.Schema.Types.ObjectId })
   _id: string;
 
   @Prop({ unique: true })
@@ -11,6 +11,9 @@ export class User {
 
   @Prop({ required: true })
   password: string;
+
+  @Prop({})
+  hash: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)

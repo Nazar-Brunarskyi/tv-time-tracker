@@ -11,6 +11,7 @@ import * as mongoose from 'mongoose'
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './Interfaces/jwt-payload.interface';
+import { Tokens } from './Interfaces/tokens.interface';
 
 @Injectable()
 export class AuthService {
@@ -22,18 +23,24 @@ export class AuthService {
 
   async signUp(
     { password, userName }: UserCredentialsDto,
-  ): Promise<User> {
+  ): Promise<any> {
     try {
       const salt = await bcrypt.genSalt();
       const hashedPassword = await bcrypt.hash(password, salt);
+
+      const UUID = new mongoose.mongo.ObjectId();
+      const tokens = await this.generateTokens(UUID, userName);
+
       const newUser = new this.userModel({
+        _id: UUID,
         userName,
         password: hashedPassword,
+        hash: tokens.REFRESH_TOKEN,
       });
 
       await newUser.save();
 
-      return newUser
+      return tokens;
     } catch (error) {
       console.log(error);
 
@@ -45,7 +52,7 @@ export class AuthService {
 
   async signIn(
     { userName, password }: UserCredentialsDto,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<Tokens> {
     const user = await this.userModel.findOne({ userName });
 
     if (!user) {
@@ -59,9 +66,43 @@ export class AuthService {
       throw new UnauthorizedException('please check your login credentials')
     }
 
-    const payload: JwtPayload = { userName };
-    const accessToken = this.jwtService.sign(payload);
+    const tokens = await this.generateTokens(user.id, user.userName);
 
-    return { accessToken };
+    user.hash = tokens.REFRESH_TOKEN;
+
+    await user.save();
+
+    return tokens;
+  }
+
+  async logOut(userName: string) {
+    const user = await this.userModel.findOne({ userName });
+
+    user.hash = null;
+    await user.save();
+  }
+
+  async generateTokens(id: mongoose.mongo.BSON.ObjectId, userName: string): Promise<Tokens> {
+    return {
+      ACCESS_TOKEN: await this.jwtService.signAsync({
+        id: id,
+        userName,
+      },
+        {
+          expiresIn: 60 * 5,
+          secret: process.env.AT_SECRET,
+        }
+      ),
+
+      REFRESH_TOKEN: await this.jwtService.signAsync({
+        id: id,
+        userName,
+      },
+        {
+          expiresIn: 60 * 60,
+          secret: process.env.RT_SECRET,
+        }
+      ),
+    }
   }
 }
