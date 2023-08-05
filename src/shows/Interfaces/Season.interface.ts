@@ -1,4 +1,4 @@
-import { Episode } from "./Episode.interface";
+import { Episode } from './Episode.interface';
 
 export interface Season {
   episodes: Episode[];

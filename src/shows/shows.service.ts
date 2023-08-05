@@ -1,4 +1,8 @@
-import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Show } from './Schemas/Show.scema';
 import mongoose from 'mongoose';
@@ -9,23 +13,19 @@ import { User } from 'src/auth/Schemas/User.schema';
 export class ShowsService {
   constructor(
     @InjectModel(Show.name)
-    private showModel: mongoose.Model<Show>
-  ) { }
+    private showModel: mongoose.Model<Show>,
+  ) {}
   getShows() {
-    return this.showModel.find()
+    return this.showModel.find();
   }
 
-  async createShow(
-    { name, description, image }: ShowDto,
-    user: User
-  ) {
+  async createShow({ name, description }: ShowDto, user: User) {
     try {
       const newShow = new this.showModel({
         createdBy: user._id,
         name,
         description,
-        image,
-      })
+      });
 
       await newShow.save();
 
@@ -36,7 +36,7 @@ export class ShowsService {
       if (error.code === 11000) {
         throw new ConflictException('such show already exist');
       } else {
-        throw new InternalServerErrorException()
+        throw new InternalServerErrorException();
       }
     }
   }

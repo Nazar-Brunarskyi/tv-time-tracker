@@ -16,16 +16,16 @@ export class Show {
 
   @Prop({
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Season' }],
-    default: []
+    default: [],
   })
-  seasons?: Season[]
+  seasons?: Season[];
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true
+    required: true,
   })
-  createdBy: User
+  createdBy: User;
 }
 
-export const ShowSchema = SchemaFactory.createForClass(Show)
+export const ShowSchema = SchemaFactory.createForClass(Show);

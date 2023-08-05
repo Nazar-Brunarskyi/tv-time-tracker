@@ -21,5 +21,16 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    "max-len": ["error", {
+      "code": 80,
+      "comments": 80,
+      "ignoreTemplateLiterals": true,
+    }],
+    "semi": ["error", "always"],
+    "semi-style": ["error", "last"],
+    "space-before-function-paren": ["error", "never"],
+    "no-var": "error",
+    "prefer-const": "error",
+    "comma-dangle": ["error", "always-multiline"],
   },
 };

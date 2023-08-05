@@ -1,4 +1,4 @@
-import { IsNotEmpty, Matches, MinLength } from "class-validator";
+import { IsNotEmpty, MinLength } from 'class-validator';
 
 export class ShowDto {
   @IsNotEmpty({ message: 'provide a name of the show, please' })
@@ -7,7 +7,4 @@ export class ShowDto {
   @IsNotEmpty({ message: 'provide a description for the show, please' })
   @MinLength(50)
   description: string;
-
-  // @Matches('^(https?|ftp)://[^\s/$.?#].[^\s]*$')
-  image: string;
 }

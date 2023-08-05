@@ -1,11 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Request,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
 import { ShowsService } from './shows.service';
 import { ShowDto } from './DTOs/show.dto';
 import { AuthGuard } from '@nestjs/passport';
@@ -13,9 +6,7 @@ import { GetUser } from 'src/Decorators/getUser.decorator';
 
 @Controller('shows')
 export class ShowsController {
-  constructor(
-    private showsService: ShowsService
-  ) { }
+  constructor(private showsService: ShowsService) {}
 
   @Get()
   getShows() {
@@ -24,10 +15,7 @@ export class ShowsController {
 
   @Post()
   @UseGuards(AuthGuard())
-  createShow(
-    @Body() showDto: ShowDto,
-    @GetUser() user
-  ) {
-    return this.showsService.createShow(showDto, user)
+  createShow(@Body() showDto: ShowDto, @GetUser() user) {
+    return this.showsService.createShow(showDto, user);
   }
 }

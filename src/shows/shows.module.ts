@@ -11,6 +11,6 @@ import { AuthModule } from 'src/auth/auth.module';
     AuthModule,
   ],
   controllers: [ShowsController],
-  providers: [ShowsService]
+  providers: [ShowsService],
 })
-export class ShowsModule { }
+export class ShowsModule {}

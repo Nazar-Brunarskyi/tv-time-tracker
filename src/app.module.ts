@@ -12,9 +12,9 @@ import { ShowsModule } from './shows/shows.module';
     }),
     MongooseModule.forRoot(process.env.DB_URI),
     AuthModule,
-    ShowsModule
+    ShowsModule,
   ],
   controllers: [],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {}
