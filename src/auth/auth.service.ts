@@ -67,7 +67,7 @@ export class AuthService {
       throw new UnauthorizedException('please check your login credentials');
     }
 
-    const tokens = await this.generateTokens(user.id, user.userName);
+    const tokens = await this.generateTokens(user._id, user.userName);
 
     user.hash = tokens.REFRESH_TOKEN;
 
@@ -100,7 +100,7 @@ export class AuthService {
       throw new ForbiddenException('Access Denied');
     }
 
-    const tokens = await this.generateTokens(user.id, user.userName);
+    const tokens = await this.generateTokens(user._id, user.userName);
 
     user.hash = tokens.REFRESH_TOKEN;
 

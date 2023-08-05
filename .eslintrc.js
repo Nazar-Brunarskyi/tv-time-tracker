@@ -32,5 +32,6 @@ module.exports = {
     "no-var": "error",
     "prefer-const": "error",
     "comma-dangle": ["error", "always-multiline"],
+    "prettier/prettier": 'off'
   },
 };

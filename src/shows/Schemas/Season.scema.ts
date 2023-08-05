@@ -10,13 +10,6 @@ export class Season {
 
   @Prop({ required: true })
   numberOfTheSeason: number;
-
-  @Prop({
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Show',
-    required: true,
-  })
-  ownedByShow: Show;
 }
 
 export const SeasonSchema = SchemaFactory.createForClass(Season);

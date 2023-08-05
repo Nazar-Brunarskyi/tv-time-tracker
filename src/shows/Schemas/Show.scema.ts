@@ -8,11 +8,8 @@ export class Show {
   @Prop({ unique: true })
   name: string;
 
-  @Prop({ required: true })
+  @Prop()
   description: string;
-
-  @Prop({ required: true })
-  image: string;
 
   @Prop({
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Season' }],
@@ -23,7 +20,7 @@ export class Show {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
+    // required: true,
   })
   createdBy: User;
 }
