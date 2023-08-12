@@ -10,6 +10,7 @@ import { ShowDto } from './DTOs/show.dto';
 import { User } from 'src/auth/Schemas/User.schema';
 import { SeasonDto } from './DTOs/season.dto';
 import { Season } from './Schemas/Season.scema';
+import { EpisodesDto } from './DTOs/episodes.dto copy';
 
 @Injectable()
 export class ShowsService {
@@ -62,5 +63,22 @@ export class ShowsService {
     await show.save();
 
     return newSeason;
+  }
+
+  async addEpisodes(
+    showId: string,
+    numberOfTheSeason: number,
+    episodesObj: EpisodesDto
+  ) {
+    const show = await this.showModel.findById(showId);
+    const { episodes } = episodesObj;
+    const seasonId = show.seasons[numberOfTheSeason - 1];
+
+    const season = await this.seasonModel.findById(seasonId);
+
+    season.episodes.push(...episodes);
+    season.save();
+
+    return show;
   }
 }

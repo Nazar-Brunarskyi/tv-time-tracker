@@ -15,4 +15,4 @@ import { Season, SeasonSchema } from './Schemas/Season.scema';
   controllers: [ShowsController],
   providers: [ShowsService],
 })
-export class ShowsModule {}
+export class ShowsModule { }
